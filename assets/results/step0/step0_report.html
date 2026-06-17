@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Step 0: 参数确认 - 视觉构型审计</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f7fa; padding: 30px; }
+  .card { max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .status { display: inline-block; background: #27ae60; color: white; padding: 4px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  h1 { font-size: 20px; color: #1a1a2e; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th { text-align: left; padding: 10px 12px; background: #f0f2ff; color: #667eea; font-size: 13px; width: 140px; border-bottom: 1px solid #e8e8e8; }
+  td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #e8e8e8; }
+  .next { margin-top: 20px; padding: 16px; background: #e8f5e9; border-radius: 8px; font-size: 13px; color: #2e7d32; }
+  .stop { margin-top: 12px; padding: 16px; background: #fff3e0; border-radius: 8px; font-size: 13px; color: #e65100; }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="status">✅ 通过</span>
+  <h1>Step 0: 参数确认</h1>
+  <table>
+    <tr><th>站点</th><td>US (美国站)</td></tr>
+    <tr><th>搜索关键词</th><td>shower head</td></tr>
+    <tr><th>采样页数</th><td>3 页</td></tr>
+    <tr><th>审计维度</th><td>几何轮廓 / 结构配置 / 表面工艺</td></tr>
+    <tr><th>配置文件</th><td>assets/results/step0/run_config.json</td></tr>
+    <tr><th>数据源</th><td>用户输入</td></tr>
+  </table>
+  <div class="next">
+    <strong>下一步：</strong>Step 1 搜索与数据采集 — 调用 @亚马逊前端搜索模拟，按 "shower head" 在 US 站深度抓取前 3 页所有商品的主图 URL 及销售额数据。
+  </div>
+  <div class="stop">
+    <strong>🛑 停止点：</strong>等待用户确认后进入 Step 1。
+  </div>
+</div>
+</body>
+</html>

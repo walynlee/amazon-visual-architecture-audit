@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Step 2: 视觉属性打标 - shower head</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f7fa; padding: 30px; }
+  .card { max-width: 800px; margin: 0 auto 20px; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .status { display: inline-block; background: #27ae60; color: white; padding: 4px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  h1 { font-size: 20px; color: #1a1a2e; margin-bottom: 20px; }
+  h2 { font-size: 16px; color: #333; margin: 20px 0 12px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  th { text-align: left; padding: 8px 12px; background: #f0f2ff; color: #667eea; font-size: 13px; width: 160px; border-bottom: 1px solid #e8e8e8; }
+  td { padding: 8px 12px; font-size: 14px; border-bottom: 1px solid #e8e8e8; }
+  .charts { display: flex; gap: 20px; margin: 20px 0; }
+  .chart-box { flex: 1; min-width: 0; }
+  .next { margin-top: 20px; padding: 16px; background: #e8f5e9; border-radius: 8px; font-size: 13px; color: #2e7d32; }
+  .stop { margin-top: 12px; padding: 16px; background: #fff3e0; border-radius: 8px; font-size: 13px; color: #e65100; }
+  .bar { height: 8px; border-radius: 4px; margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="status">✅ 通过 (100% ≥ 80%阈值)</span>
+  <h1>Step 2: 视觉属性打标</h1>
+  <table>
+    <tr><th>分析方法</th><td>PIL图像分析(表面工艺) + 标题NLP(几何/结构)</td></tr>
+    <tr><th>打标维度</th><td>几何轮廓 / 结构配置 / 表面工艺</td></tr>
+    <tr><th>输入</th><td>48张主图 + 标题文本</td></tr>
+    <tr><th>打标成功率</th><td><strong>100%</strong> (48/48)</td></tr>
+    <tr><th>输出文件</th><td>assets/results/step2/visual_tags.json</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>三维标签分布</h2>
+  <div class="charts">
+    <div class="chart-box"><canvas id="geoChart"></canvas></div>
+    <div class="chart-box"><canvas id="strChart"></canvas></div>
+    <div class="chart-box"><canvas id="surChart"></canvas></div>
+  </div>
+  
+  <h2>分布详情</h2>
+  <table>
+    <tr><th colspan="2" style="color:#667eea">几何轮廓</th></tr>
+    <tr><td>圆形</td><td>19 (39.6%) <div class="bar" style="width:39.6%;background:#667eea"></div></td></tr>
+    <tr><td>长条形</td><td>17 (35.4%) <div class="bar" style="width:35.4%;background:#f093fb"></div></td></tr>
+    <tr><td>异形</td><td>8 (16.7%) <div class="bar" style="width:16.7%;background:#fbc2eb"></div></td></tr>
+    <tr><td>方形</td><td>4 (8.3%) <div class="bar" style="width:8.3%;background:#c4b5fd"></div></td></tr>
+    <tr><th colspan="2" style="color:#667eea">结构配置</th></tr>
+    <tr><td>组合式</td><td>25 (52.1%) <div class="bar" style="width:52.1%;background:#4ade80"></div></td></tr>
+    <tr><td>单体式</td><td>23 (47.9%) <div class="bar" style="width:47.9%;background:#fbbf24"></div></td></tr>
+    <tr><th colspan="2" style="color:#667eea">表面工艺</th></tr>
+    <tr><td>高亮</td><td>44 (91.7%) <div class="bar" style="width:91.7%;background:#38bdf8"></div></td></tr>
+    <tr><td>纹理</td><td>4 (8.3%) <div class="bar" style="width:8.3%;background:#fb923c"></div></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>洞察摘要</h2>
+  <ul style="font-size:14px;line-height:2;padding-left:20px">
+    <li><strong>几何轮廓：</strong>圆形(39.6%)和长条形(35.4%)占主导，反映 rain head 和 handheld 两大主流形态</li>
+    <li><strong>结构配置：</strong>组合式(52.1%)略超单体式，"带手持花洒"成为市场标配</li>
+    <li><strong>表面工艺：</strong>高亮(91.7%)压倒性主导，Chrome/不锈钢是绝对主流材质感</li>
+  </ul>
+  <div class="next">
+    <strong>下一步：</strong>Step 3 交叉审计 — 将视觉标签与销量/价格数据交叉聚合，识别"高销量×高占比"的视觉构型集群。
+  </div>
+  <div class="stop">
+    <strong>🛑 停止点：</strong>等待用户确认后进入 Step 3。
+  </div>
+</div>
+
+<script>
+const colors1 = ['#667eea','#f093fb','#fbc2eb','#c4b5fd'];
+const colors2 = ['#4ade80','#fbbf24'];
+const colors3 = ['#38bdf8','#fb923c'];
+new Chart(document.getElementById('geoChart'),{type:'doughnut',data:{labels:['圆形','长条形','异形','方形'],datasets:[{data:[19,17,8,4],backgroundColor:colors1}]},options:{plugins:{title:{display:true,text:'几何轮廓'}}}});
+new Chart(document.getElementById('strChart'),{type:'doughnut',data:{labels:['组合式','单体式'],datasets:[{data:[25,23],backgroundColor:colors2}]},options:{plugins:{title:{display:true,text:'结构配置'}}}});
+new Chart(document.getElementById('surChart'),{type:'doughnut',data:{labels:['高亮','纹理'],datasets:[{data:[44,4],backgroundColor:colors3}]},options:{plugins:{title:{display:true,text:'表面工艺'}}}});
+</script>
+</body>
+</html>

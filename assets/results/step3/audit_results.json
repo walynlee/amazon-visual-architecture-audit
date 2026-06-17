@@ -1,0 +1,76 @@
+{
+  "total_products": 48,
+  "total_revenue": 6408318.0,
+  "dimensions": {
+    "geometry": [
+      {
+        "label": "圆形",
+        "count": 19,
+        "total_sales": 58000.0,
+        "total_revenue": 2935833.0,
+        "avg_price": 121.51,
+        "revenue_share": 0.4581
+      },
+      {
+        "label": "长条形",
+        "count": 17,
+        "total_sales": 74500.0,
+        "total_revenue": 2048115.0,
+        "avg_price": 35.16,
+        "revenue_share": 0.3196
+      },
+      {
+        "label": "异形",
+        "count": 8,
+        "total_sales": 14500.0,
+        "total_revenue": 790515.0,
+        "avg_price": 88.66,
+        "revenue_share": 0.1234
+      },
+      {
+        "label": "方形",
+        "count": 4,
+        "total_sales": 4000.0,
+        "total_revenue": 633855.0,
+        "avg_price": 240.2,
+        "revenue_share": 0.0989
+      }
+    ],
+    "structure": [
+      {
+        "label": "组合式",
+        "count": 25,
+        "total_sales": 103500.0,
+        "total_revenue": 3983520.0,
+        "avg_price": 49.89,
+        "revenue_share": 0.6216
+      },
+      {
+        "label": "单体式",
+        "count": 23,
+        "total_sales": 47500.0,
+        "total_revenue": 2424798.0,
+        "avg_price": 144.75,
+        "revenue_share": 0.3784
+      }
+    ],
+    "surface": [
+      {
+        "label": "高亮",
+        "count": 44,
+        "total_sales": 144500.0,
+        "total_revenue": 5881918.0,
+        "avg_price": 95.58,
+        "revenue_share": 0.9179
+      },
+      {
+        "label": "纹理",
+        "count": 4,
+        "total_sales": 6500.0,
+        "total_revenue": 526400.0,
+        "avg_price": 92.74,
+        "revenue_share": 0.0821
+      }
+    ]
+  }
+}

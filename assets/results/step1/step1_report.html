@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Step 1: 搜索与数据采集 - shower head</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f7fa; padding: 30px; }
+  .card { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .status { display: inline-block; background: #27ae60; color: white; padding: 4px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+  h1 { font-size: 20px; color: #1a1a2e; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th { text-align: left; padding: 10px 12px; background: #f0f2ff; color: #667eea; font-size: 13px; width: 160px; border-bottom: 1px solid #e8e8e8; }
+  td { padding: 10px 12px; font-size: 14px; border-bottom: 1px solid #e8e8e8; }
+  .stat-row { display: flex; gap: 12px; margin: 16px 0; }
+  .stat { flex: 1; text-align: center; background: #f8f9ff; border-radius: 8px; padding: 14px; }
+  .stat .num { font-size: 24px; font-weight: 700; color: #667eea; }
+  .stat .label { font-size: 11px; color: #888; margin-top: 4px; }
+  .next { margin-top: 20px; padding: 16px; background: #e8f5e9; border-radius: 8px; font-size: 13px; color: #2e7d32; }
+  .stop { margin-top: 12px; padding: 16px; background: #fff3e0; border-radius: 8px; font-size: 13px; color: #e65100; }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="status">✅ 通过 (48条 ≥ 10条阈值)</span>
+  <h1>Step 1: 搜索与数据采集</h1>
+  <table>
+    <tr><th>数据源</th><td>Amazon 前台搜索模拟 (shower head, US, Page 1)</td></tr>
+    <tr><th>搜索关键词</th><td>shower head</td></tr>
+    <tr><th>采集范围</th><td>第1页 48 个产品 (第2-3页被反爬拦截)</td></tr>
+    <tr><th>采集字段</th><td>ASIN / 主图URL / 价格 / 月销量 / 评分</td></tr>
+    <tr><th>输出文件</th><td>assets/results/step1/products_raw.json</td></tr>
+  </table>
+  <div class="stat-row">
+    <div class="stat"><div class="num">48</div><div class="label">产品总数</div></div>
+    <div class="stat"><div class="num">48</div><div class="label">含主图URL</div></div>
+    <div class="stat"><div class="num">$95.34</div><div class="label">平均价格</div></div>
+    <div class="stat"><div class="num">$8.90-$689</div><div class="label">价格区间</div></div>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><div class="num">151,000</div><div class="label">月总销量估算</div></div>
+    <div class="stat"><div class="num">100%</div><div class="label">主图覆盖率</div></div>
+  </div>
+  <div class="next">
+    <strong>下一步：</strong>Step 2 视觉属性打标 — 逐张下载 48 张主图，调用 AI 视觉模型提取几何轮廓 / 结构配置 / 表面工艺三维标签。
+  </div>
+  <div class="stop">
+    <strong>🛑 停止点：</strong>等待用户确认后进入 Step 2。
+  </div>
+</div>
+</body>
+</html>
