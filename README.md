@@ -1,6 +1,6 @@
 # Amazon Visual Architecture Audit
 
-[中文](#中文简介) | [English](#english)
+[中文简介](#中文简介) | [English](#english) | [中文版长文档](docs/README.zh-CN.md) | [Examples](examples/)
 
 Turn Amazon search-result visuals into a traceable commercial map.
 
@@ -224,6 +224,13 @@ python3 scripts/step4_generate_report.py \
   --marketplace "US" \
   --output assets/results/report/visual_architecture_audit_report.html
 ```
+
+### Helpful examples
+
+- Chinese long guide: [`docs/README.zh-CN.md`](docs/README.zh-CN.md)
+- Sample run config: [`examples/run-config.example.json`](examples/run-config.example.json)
+- Workflow checklist: [`examples/workflow-checklist.zh-CN.md`](examples/workflow-checklist.zh-CN.md)
+- Reusable framework template: [`examples/reusable-framework.zh-CN.md`](examples/reusable-framework.zh-CN.md)
 
 ## Current limits
 
