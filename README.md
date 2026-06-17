@@ -1,113 +1,110 @@
 # Amazon Visual Architecture Audit
 
-An Amazon category audit skill that answers a narrow but high-value question:
+[中文](#中文简介) | [English](#english)
 
-**Which visual product form makes more money in a search result set?**
+Turn Amazon search-result visuals into a traceable commercial map.
 
-Instead of producing a generic competitor report, this skill samples Amazon search results, downloads the main images, decomposes each product into visual tags, links those tags to sales and price signals, and delivers a strategic dashboard that turns "this looks popular" into a traceable visual-performance map.
+This skill answers one narrow question really well:
 
-## What this skill does
+**Which product form makes more money in a category search result set?**
 
-- Samples Amazon search results for a keyword and marketplace
-- Extracts ASIN, title, image, price, rating, and recent-bought signals
-- Tags each product on three visual dimensions:
-  - geometry: round / square / elongated / irregular
-  - structure: single / combo / modular
-  - surface: glossy / matte / textured / transparent
-- Aggregates visual tags against estimated sales and revenue
-- Produces a final dashboard with KPI cards, attribution tables, heatmaps, top combinations, and a tagged product gallery
+Instead of generating a generic competitor report, it samples Amazon search results, downloads main images, tags each product on a three-layer visual system, links those tags to sales and price signals, and delivers a dashboard that shows what kind of "look" is winning.
 
-## Why this skill is useful
+![Dashboard Overview](docs/media/amazon-visual-final-part1.png)
 
-Most market audits stop at price, reviews, keywords, and listing copy. This one adds a missing layer: **visual structure as a commercial signal**.
+## Why this repo exists
 
-That makes it useful for:
+Most Amazon research workflows focus on:
 
-- product development teams deciding what visual direction to study first
-- operators comparing high-volume vs high-premium shapes
-- designers building image systems around category-native visual language
-- founders who want a fast visual map before deeper competitor research
+- price
+- reviews
+- keywords
+- listing copy
+- rating and volume
 
-## The decomposition logic
+This skill adds a missing layer:
 
-This skill is intentionally narrow. It does not try to solve all Amazon analysis. It focuses on one bounded workflow and splits it into clean steps.
+**visual structure as a commercial signal**
 
-### Step 0: Scope the run
+That makes it useful when you want to move from:
 
-The user confirms the marketplace, keyword, and sample depth before anything else happens.
+- "this shape looks common"
 
-Why this exists:
+to:
 
-- it prevents silent drift in sample scope
-- it makes the audit reproducible
-- it gives the user a clear first checkpoint before data collection
+- "this shape-structure-surface combination is correlated with more revenue in the sampled result set"
 
-### Step 1: Collect the sample
+## What the skill does
 
-The agent uses the browser to read Amazon search results and capture:
+### 1. Collect a visible sample
+
+The workflow starts from a keyword, marketplace, and sample depth.
+
+It reads Amazon search results and captures:
 
 - ASIN
 - title
-- main image URL
+- main image
 - price
 - rating
-- recent-bought signal
+- recent bought signal
 
-It also downloads the main images for downstream visual tagging.
+### 2. Turn each product into a visual sample
 
-Why this exists:
+Each listing is tagged on three dimensions:
 
-- it locks the audit to a visible, reviewable sample
-- it separates raw collection from later interpretation
-- it gives the user a chance to reject or refine the sample set
+- `geometry`: round / square / elongated / irregular
+- `structure`: single / combo / modular
+- `surface`: glossy / matte / textured / transparent
 
-### Step 2: Tag visual attributes
+### 3. Cross visual tags with business signals
 
-Each product is transformed from a plain listing record into a visual sample:
+It aggregates:
 
-- geometry: inferred from title language
-- structure: inferred from title language
-- surface: inferred from image brightness, saturation, and variance
-
-Why this exists:
-
-- it turns subjective visual impressions into repeatable categories
-- it keeps the first version explainable instead of over-modeling image semantics
-- it creates a reusable labeling layer for future audits
-
-### Step 3: Cross-audit visual tags with market signals
-
-The skill merges Step 1 and Step 2 outputs and calculates:
-
-- product count by tag
-- estimated monthly sales by tag
-- revenue by tag
-- average price by tag
+- product count
+- estimated monthly sales
+- revenue
+- average price
 - cross-combination rankings
 
-Why this exists:
+### 4. Deliver a strategic dashboard
 
-- it moves the workflow from "what products look like" to "what those looks correlate with commercially"
-- it reveals whether a shape is a premium signal, a volume signal, or both
-- it grounds visual conclusions in concrete product rows
+The final output includes:
 
-### Step 4: Deliver the strategic dashboard
-
-The final report turns the audit into something a team can actually use:
-
-- KPI overview
-- three-dimension revenue distribution
+- KPI summary
+- three-dimension revenue distributions
 - attribution tables
 - geometry x structure heatmap
 - price-band distribution
-- top visual combination ranking
+- top visual combinations
 - full tagged gallery
 
-Why this exists:
+![Strategy Layer](docs/media/amazon-visual-final-part2.png)
 
-- it gives decision-makers a summary first and evidence second
-- it makes the workflow presentation-ready without rebuilding the format every time
-- it preserves traceability from summary back to product-level evidence
+## The decomposition idea
+
+This repository is not just a specific skill.
+
+It is also a reusable pattern for building stepwise Codex skills that are:
+
+- narrow in boundary
+- traceable in reasoning
+- deterministic where possible
+- checkpointed for human review
+
+The core principle is simple:
+
+**Do not let the model improvise the whole job.**
+
+Split the workflow into layers:
+
+1. Scope and confirm the run
+2. Collect the raw sample
+3. Transform fuzzy observations into explicit tags
+4. Cross tags with business metrics
+5. Deliver a fixed-format report
+
+That is what makes the skill feel less like a prompt and more like a small operator tool.
 
 ## Skill structure
 
@@ -123,70 +120,70 @@ amazon-visual-architecture-audit/
 │   ├── step2_visual_tag.py
 │   ├── step3_cross_audit.py
 │   └── step4_generate_report.py
+├── docs/
+│   └── media/
 └── assets/
     └── results/
 ```
 
-### What each layer is responsible for
+### What each part is for
 
-- `SKILL.md`: workflow rules, boundaries, checkpoints, pass conditions
-- `references/`: node-level execution contract and handoff logic
-- `scripts/`: deterministic transforms that should not rely on ad hoc model behavior
-- `assets/results/`: sample outputs and generated reports
+- `SKILL.md`: the contract, boundaries, checkpoints, and pass conditions
+- `references/`: node-by-node handoff logic and execution table
+- `scripts/`: deterministic transforms for tagging, aggregation, and report generation
+- `assets/results/`: stage outputs and sample reports
+- `docs/media/`: README screenshots for fast understanding
 
-This separation is the main reusable pattern. The skill is easier to trust because:
+## Why this structure is reusable
 
-- rules are visible
-- execution is deterministic where possible
-- outputs are reviewable at every stage
+This structure works beyond this specific Amazon use case.
 
-## Reusable framework
-
-This repository is not only a specific Amazon audit. It is also a reusable framework for building stepwise Codex skills.
-
-You can reuse the same pattern for:
+You can adapt the same framework for:
 
 - competitor image architecture audits
 - category visual language mapping
 - packaging-form audits
-- review + visual correlation audits
-- marketplace-specific product form studies
+- review + visual correlation studies
+- marketplace-specific product-form comparisons
 
-### The reusable pattern
+### Reusable framework
+
+If you want to build similar skills, this is the pattern worth copying:
 
 1. Define one narrow question.
-2. Confirm scope before collecting anything.
-3. Separate raw collection from interpretation.
-4. Turn fuzzy observations into explicit tags.
+2. Confirm scope before data collection.
+3. Keep raw sample separate from interpretation.
+4. Convert vague signals into explicit tags.
 5. Cross those tags with business metrics.
-6. Deliver a fixed-format report with checkpoints.
+6. Deliver a stable report format with visible checkpoints.
 
-### Design principles behind the framework
+### Why it works
 
-- Narrow boundary beats broad promise.
-- Checkpoints beat silent long-running execution.
-- Deterministic scripts beat repeated prompt improvisation.
-- Stage outputs beat black-box conclusions.
-- Final dashboards should summarize, but also let the reader trace back to evidence.
+- narrow scope reduces drift
+- checkpoints prevent silent long-running execution
+- deterministic scripts reduce prompt randomness
+- stage outputs make the workflow reviewable
+- final dashboards summarize without hiding the evidence
 
-## Included sample outputs
+## Workflow snapshots
 
-This repo includes example stage outputs under `assets/results/`, including:
+The skill keeps stage outputs visible, so users can inspect the work before moving on.
 
-- stepwise reports
-- tagged visual samples
-- audit tables
-- final dashboard
+### Tagging stage
 
-They are useful as:
+This is where the workflow stops being "just search results" and becomes a reusable visual sample set.
 
-- validation fixtures
-- demo assets
-- layout references for future skills
+![Tagging Stage](docs/media/amazon-visual-step2-part3.png)
+
+### Final strategy view
+
+This is where visual form, structure, price band, and commercial signal are brought together in one deliverable.
+
+![Final Dashboard](docs/media/amazon-visual-final-part2.png)
 
 ## Quick start
 
-### 1. Install dependencies
+### Install dependencies
 
 ```bash
 python3 -m venv .venv
@@ -194,16 +191,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Review the skill contract
+### Read the workflow contract
 
-Read:
+Start with:
 
 - `SKILL.md`
 - `references/workflow-node-io.md`
 
-### 3. Run the stepwise workflow
+### Run the transformation steps
 
-Step 1 is browser-assisted and uses the extraction pattern documented in `scripts/step1_fetch_products.py`.
+Step 1 is browser-assisted and follows the extraction pattern in `scripts/step1_fetch_products.py`.
 
 Then run:
 
@@ -228,17 +225,102 @@ python3 scripts/step4_generate_report.py \
   --output assets/results/report/visual_architecture_audit_report.html
 ```
 
-## Limits
+## Current limits
 
-- Sales are estimated from front-end signals, not backend truth
-- Visual tags are intentionally coarse in v1
-- Results should guide investigation, not replace full product strategy validation
+- sales are estimated from front-end signals, not backend truth
+- the tag system is intentionally coarse in v1
+- visual correlation should guide research, not replace full product strategy validation
 
 ## Best fit
 
-This skill works best when you want:
+Use this skill when you want:
 
 - a bounded visual audit
-- visible checkpoints
-- reusable stage outputs
-- a deliverable that can be discussed immediately by operators, founders, or designers
+- visible stage checkpoints
+- reusable intermediate outputs
+- a report that operators, founders, and designers can discuss immediately
+
+---
+
+## 中文简介
+
+这是一个把亚马逊搜索结果“视觉化拆解”的 Skill。
+
+它不做泛泛的竞品分析，而是专门回答一个很具体的问题：
+
+**一个品类里，到底哪种产品长相更赚钱？**
+
+它会做四件事：
+
+1. 采样搜索结果
+2. 下载主图并做三维视觉打标
+3. 把视觉标签和销量、价格、营收估算做交叉分析
+4. 输出一份可直接讨论的可视化看板
+
+### 这套 Skill 的价值
+
+大部分亚马逊分析只看价格、评论、关键词和文案。
+
+这套 Skill 额外补了一层：
+
+**把视觉构型当成商业信号来看。**
+
+也就是说，它不是停在“这个图看起来很多”，而是进一步回答：
+
+- 哪种轮廓更容易占营收
+- 哪种结构更像主流配置
+- 哪种材质感更符合品类视觉语言
+- 哪些视觉组合同时具备销量和价格优势
+
+### 这套拆解思路为什么可复用
+
+这套仓库真正值得复用的，不只是某个亚马逊类目的结果，而是它背后的 Skill 方法：
+
+1. 先把问题定义得足够窄
+2. 先确认范围，再开始采集
+3. 把原始样本和解释过程拆开
+4. 把模糊观察变成明确标签
+5. 再把标签和商业指标做交叉
+6. 最后用固定格式交付
+
+这套框架可以继续迁移到：
+
+- 竞品主图架构审计
+- 品类视觉语言地图
+- 包装形态研究
+- 评论与视觉表达联动分析
+- 不同站点的产品形态比较
+
+### 仓库结构
+
+- `SKILL.md`：规则、边界、停点、通过条件
+- `references/`：节点输入输出和阶段路由
+- `scripts/`：打标、聚合、报告生成等确定性动作
+- `assets/results/`：阶段报告和样例结果
+- `docs/media/`：README 展示图
+
+### 一句话总结
+
+这不是一个“更长的提示词”。
+
+它更像一个有边界、有阶段产物、有可视化交付的微型运营工具。
+
+---
+
+## English
+
+This repository contains a stepwise Codex skill for turning Amazon search-result visuals into a commercial decision surface.
+
+It is designed around one narrow question:
+
+**Which visual product form is performing best in the sampled category result set?**
+
+The main reusable value is not only the specific audit, but the framework behind it:
+
+- narrow question
+- explicit checkpoints
+- deterministic transformations
+- visible stage outputs
+- fixed final delivery
+
+If you build operational skills, this pattern is usually more durable than a large one-shot prompt.
